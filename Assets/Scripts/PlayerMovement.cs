@@ -6,7 +6,8 @@ using UnityEngine.UIElements;
 
 public class PlayerMovement : MonoBehaviour
 {
-
+    
+    public float acceleration;
     public float groundSpeed;
     public float jumpSpeed;
     [Range(0f, 1f)]
@@ -15,6 +16,10 @@ public class PlayerMovement : MonoBehaviour
     public BoxCollider2D groundCheck;
     public LayerMask groundMask;
     public bool grounded;
+    public Animator animator;
+
+   
+
     float xInput;
     float yInput;
 
@@ -23,6 +28,9 @@ public class PlayerMovement : MonoBehaviour
     {
         GetInput();
         HandleJump();
+
+        //animation work WIP
+        animator.SetFloat("Speed", Mathf.Abs(xInput));
     }
     
     void FixedUpdate()
@@ -49,14 +57,20 @@ public class PlayerMovement : MonoBehaviour
     }
 
     
+    
+   
 
     void MoveWithInput()
     {
         if (Mathf.Abs(xInput) > 0)
         {
-            body.linearVelocity = new Vector2(xInput * groundSpeed, body.linearVelocity.y); /*Side note if you find any previous unity projects online and thery have "_______.velocity" 
+            float increment = xInput * acceleration;
+            float newSpeed = Mathf.Clamp(body.linearVelocity.x + increment, -groundSpeed, groundSpeed);//Note: Mathf.Clamp is what ever that is in the frist value can not exceed the 2nd or third values 
+
+            body.linearVelocity = new Vector2(newSpeed, body.linearVelocity.y); /*Side note if you find any previous unity projects online and thery have "_______.velocity" 
                                                                                               it has been changed in this most recent unity update there are now linear and angular for 
                                                                                               the time being we only care for linear.*/
+            
             //Turns the character based of where they are moving ie will 
             // look left if moving left will look right if moving right
             float direction = Mathf.Sign(xInput);
@@ -67,10 +81,21 @@ public class PlayerMovement : MonoBehaviour
 
     void HandleJump()
     {
-        if (Mathf.Abs(yInput) > 0 && grounded) 
+        if (Input.GetButtonDown("Jump") && grounded)
         {
             body.linearVelocity = new Vector2(body.linearVelocity.x, yInput * jumpSpeed);
-        }  
+            //trigger the jup paramater which allows us to be able to detect when we are jumping
+            animator.SetBool("isJumping", true);
+
+
+            // need some one to figure out how to get the jumping animation to work got idle and runing but jumping seems a to now want to work 
+
+        }
+
+        if (grounded)
+        {
+            animator.SetBool("isJumping", false);    
+        }
     }
 
 
@@ -84,7 +109,7 @@ public class PlayerMovement : MonoBehaviour
 
     void ApplyFriction()
     {
-       if (grounded && xInput == 0 && yInput == 0)
+       if (grounded && xInput == 0 && body.linearVelocity.y <= 0)
         {
             body.linearVelocity *= groundDecay;
         }
