@@ -7,7 +7,8 @@ using UnityEngine.UIElements;
 public class PlayerMovement : MonoBehaviour
 {
 
-    public float speed;
+    public float groundSpeed;
+    public float jumpSpeed;
     [Range(0f, 1f)]
     public float groundDecay;
     public Rigidbody2D body;
@@ -21,7 +22,14 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         GetInput();
+        HandleJump();
+    }
+    
+    void FixedUpdate()
+    {
+        CheckGround();
         MoveWithInput();
+        ApplyFriction();
     }
 
     /*
@@ -33,28 +41,39 @@ public class PlayerMovement : MonoBehaviour
     void GetInput()
     {
         xInput = Input.GetAxis("Horizontal");
-        yInput = Input.GetAxis("Vertical");
+        // Jump should only trigger ONCE when you press W, and only if grounded
+        if (Input.GetKeyDown(KeyCode.W) && grounded)
+        {
+            body.linearVelocity = new Vector2(body.linearVelocity.x, jumpSpeed);
+        }
     }
+
+    
 
     void MoveWithInput()
     {
         if (Mathf.Abs(xInput) > 0)
         {
-            body.linearVelocity = new Vector2(xInput * speed, body.linearVelocity.y); //Side note if you find any previous unity projects online and thery have "_______.velocity" 
-                                                                                      //it has been changed in this most recent unity update there are now linear and angular for 
-                                                                                      //the time being we only care for linear.
+            body.linearVelocity = new Vector2(xInput * groundSpeed, body.linearVelocity.y); /*Side note if you find any previous unity projects online and thery have "_______.velocity" 
+                                                                                              it has been changed in this most recent unity update there are now linear and angular for 
+                                                                                              the time being we only care for linear.*/
+            //Turns the character based of where they are moving ie will 
+            // look left if moving left will look right if moving right
+            float direction = Mathf.Sign(xInput);
+            transform.localScale = new Vector3(direction, 1, 1);
         }
-        if (Mathf.Abs(yInput) > 0 && grounded) 
-        {
-            body.linearVelocity = new Vector2(body.linearVelocity.x, yInput * speed);
-        }
+
     }
 
-    void FixedUpdate()
+    void HandleJump()
     {
-        CheckGround();
-        ApplyFriction();
+        if (Mathf.Abs(yInput) > 0 && grounded) 
+        {
+            body.linearVelocity = new Vector2(body.linearVelocity.x, yInput * jumpSpeed);
+        }  
     }
+
+
 
 
     //Ground collision function if the is collision box of "GroundCheck" on the player is touching a physics layer of the name "Ground". if it is true it returns true
@@ -65,7 +84,7 @@ public class PlayerMovement : MonoBehaviour
 
     void ApplyFriction()
     {
-       if (grounded && Input.GetAxis("Horizontal") == 0)
+       if (grounded && xInput == 0 && yInput == 0)
         {
             body.linearVelocity *= groundDecay;
         }
