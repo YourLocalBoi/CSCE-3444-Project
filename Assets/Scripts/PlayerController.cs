@@ -1,12 +1,9 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel.Design;
 using UnityEngine;
-using UnityEngine.UIElements;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
-    
     public float acceleration;
     public float groundSpeed;
     public float jumpSpeed;
@@ -18,11 +15,8 @@ public class PlayerMovement : MonoBehaviour
     public bool grounded;
     public Animator animator;
 
-   
-
     float xInput;
-    float yInput;
-
+    float yInput; // Currently unused, but kept for future features
 
     void Update()
     {
@@ -30,9 +24,10 @@ public class PlayerMovement : MonoBehaviour
         HandleJump();
 
         //animation work WIP
-        animator.SetFloat("Speed", Mathf.Abs(xInput));
+        if (animator != null)
+            animator.SetFloat("Speed", Mathf.Abs(xInput));
     }
-    
+
     void FixedUpdate()
     {
         CheckGround();
@@ -56,21 +51,18 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    
-    
-   
-
     void MoveWithInput()
     {
-        if (Mathf.Abs(xInput) > 0)
+        if (Mathf.Abs(xInput) > 0f)
         {
+            // Note: if acceleration is intended to be per-second, multiply by Time.fixedDeltaTime.
             float increment = xInput * acceleration;
-            float newSpeed = Mathf.Clamp(body.linearVelocity.x + increment, -groundSpeed, groundSpeed);//Note: Mathf.Clamp is what ever that is in the frist value can not exceed the 2nd or third values 
+            float newSpeed = Mathf.Clamp(body.linearVelocity.x + increment, -groundSpeed, groundSpeed);
 
             body.linearVelocity = new Vector2(newSpeed, body.linearVelocity.y); /*Side note if you find any previous unity projects online and thery have "_______.velocity" 
                                                                                               it has been changed in this most recent unity update there are now linear and angular for 
                                                                                               the time being we only care for linear.*/
-            
+
             //Turns the character based of where they are moving ie will 
             // look left if moving left will look right if moving right
             float direction = Mathf.Sign(xInput);
@@ -83,35 +75,35 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetButtonDown("Jump") && grounded)
         {
-            body.linearVelocity = new Vector2(body.linearVelocity.x, yInput * jumpSpeed);
+            body.linearVelocity = new Vector2(body.linearVelocity.x, jumpSpeed);
             //trigger the jup paramater which allows us to be able to detect when we are jumping
-            animator.SetBool("isJumping", true);
-
+            if (animator != null)
+                animator.SetBool("isJumping", true);
 
             // need some one to figure out how to get the jumping animation to work got idle and runing but jumping seems a to now want to work 
-
         }
 
         if (grounded)
         {
-            animator.SetBool("isJumping", false);    
+            if (animator != null)
+                animator.SetBool("isJumping", false);
         }
     }
-
-
-
 
     //Ground collision function if the is collision box of "GroundCheck" on the player is touching a physics layer of the name "Ground". if it is true it returns true
     void CheckGround()
     {
-        grounded = Physics2D.OverlapAreaAll(groundCheck.bounds.min, groundCheck.bounds.max, groundMask).Length > 0;
+        if (groundCheck != null)
+            grounded = Physics2D.OverlapAreaAll(groundCheck.bounds.min, groundCheck.bounds.max, groundMask).Length > 0;
+        else
+            grounded = false;
     }
 
     void ApplyFriction()
     {
-       if (grounded && xInput == 0 && body.linearVelocity.y <= 0)
+        if (grounded && Mathf.Approximately(xInput, 0f) && body.linearVelocity.y <= 0f)
         {
-            body.linearVelocity *= groundDecay;
+            body.linearVelocity = body.linearVelocity * groundDecay;
         }
     }
-}   
+}
