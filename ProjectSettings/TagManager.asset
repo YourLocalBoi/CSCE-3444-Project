@@ -41,5 +41,23 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Water
+    uniqueID: 3110428121
+    locked: 0
+  - name: Ground
+    uniqueID: 4048566699
+    locked: 0
+  - name: Path
+    uniqueID: 2459137695
+    locked: 0
+  - name: Vegitation Under
+    uniqueID: 3760759757
+    locked: 0
+  - name: Player
+    uniqueID: 2409882691
+    locked: 0
+  - name: Vegetation
+    uniqueID: 1709794897
+    locked: 0
   m_RenderingLayers:
   - Default
