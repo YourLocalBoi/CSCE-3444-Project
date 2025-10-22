@@ -2,6 +2,10 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using TMPro;
 using System.Collections;
+using UnityEditor.Experimental.GraphView;
+using System.IO;
+using UnityEngine.InputSystem;
+using System.Runtime.InteropServices.WindowsRuntime;
 public enum BATTLE_STATES
 {
     START,
@@ -16,13 +20,25 @@ public class BattleHandler : MonoBehaviour
 
     Unit playerUnit;
     Unit enemyUnit;
+
     public GameObject playerPrefab;
     public GameObject enemyPrefab;
-    public Transform battleStation;
+
+    public Transform enemyBattleStation;
+    public Transform playerBattleStation;
+
+    public SpriteRenderer playerSpritePosition;
+    public SpriteRenderer enemySpritePosition;
+
     public BATTLE_STATES states;
 
     public BattleHUD playerHUD;
     public BattleHUD enemyHUD;
+
+    Animator playerAnimator;
+    Animator enemyAnimator;
+
+    Vector2 direction;
 
     private void Start()
     {
@@ -34,20 +50,27 @@ public class BattleHandler : MonoBehaviour
     {
         //  Enemies[] enemy; implement list if going to have multiple enemies in the fight scene; can use for each loop to iterate; maybe have turn order depending on speed, init. etc.?
 
-        float playerPosX = -1; // implement player battle station, can probably be set position since not going to have multiple characters
-        float playerPosY = -1;
+        float playerPosX = playerBattleStation.position.x;
+        float playerPosY = playerBattleStation.position.y;
 
-        float enemyPosX = battleStation.position.x; // can also implement list of battle stations to find positions for each battlestation and enemy
-        float enemyPosY = battleStation.position.y;
+        float enemyPosX = enemyBattleStation.position.x; // can also implement list of battle stations to find positions for each battlestation and enemy
+        float enemyPosY = enemyBattleStation.position.y;
 
 
         GameObject playerGO = Instantiate(playerPrefab, new Vector2(playerPosX, playerPosY), Quaternion.identity);
-        playerUnit = playerGO.GetComponent<Unit>();
+        playerUnit = playerGO.GetComponentInChildren<Unit>();
+        playerAnimator = playerGO.GetComponentInChildren<Animator>();
+        playerSpritePosition = playerGO.GetComponentInChildren<SpriteRenderer>();
 
         playerHUD.SetHUD(playerUnit);
 
         GameObject enemyGO = Instantiate(enemyPrefab, new Vector2(enemyPosX, enemyPosY), Quaternion.identity);
-        enemyUnit = enemyGO.GetComponent<Unit>();
+        enemyUnit = enemyGO.GetComponentInChildren<Unit>();
+        enemyAnimator = enemyGO.GetComponentInChildren<Animator>();
+        enemySpritePosition = enemyGO.GetComponentInChildren<SpriteRenderer>();
+
+        direction = (enemySpritePosition.transform.position - playerSpritePosition.transform.position).normalized;
+
 
         enemyHUD.SetHUD(enemyUnit);
 
@@ -65,10 +88,44 @@ public class BattleHandler : MonoBehaviour
 
     IEnumerator PlayerAttack()
     {
+        Debug.Log("Player attack trigger");
+
+        // float attackDistance = 0.75f;
+        float speed = 3f;
+
+        Vector3 returnPosition = playerSpritePosition.transform.position;
+
+        // Vector3 direction = (enemySpritePosition.transform.position - playerSpritePosition.transform.position).normalized;
+        Vector3 targetPosition = enemySpritePosition.transform.position;
+
+        playerAnimator.SetTrigger("Attack");
+
+        while (Vector3.Distance(playerSpritePosition.transform.position, targetPosition) > 0.01f)
+        {
+            playerSpritePosition.transform.position = Vector3.MoveTowards(
+                playerSpritePosition.transform.position,
+                targetPosition,
+                speed * Time.deltaTime
+            );
+            yield return null;
+        }
+
+        playerAnimator.SetTrigger("AttackDone");
+
+        while (Vector3.Distance(playerSpritePosition.transform.position, returnPosition) > 0.01f)
+        {
+            playerSpritePosition.transform.position = Vector3.MoveTowards(
+                playerSpritePosition.transform.position,
+                returnPosition,
+                speed * Time.deltaTime
+            );
+            yield return null;
+        }
+
         bool isDead = enemyUnit.TakeDamage(playerUnit.damage);
         enemyHUD.SetHealth(enemyUnit.currHealth);
 
-        states = (isDead) ? states = BATTLE_STATES.WON : states = BATTLE_STATES.ENEMY_TURN;
+        states = (isDead) ? BATTLE_STATES.WON : BATTLE_STATES.ENEMY_TURN;
 
         yield return new WaitForSeconds(2f);
 
