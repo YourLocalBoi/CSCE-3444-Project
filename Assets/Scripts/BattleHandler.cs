@@ -90,13 +90,15 @@ public class BattleHandler : MonoBehaviour
     {
         Debug.Log("Player attack trigger");
 
-        // float attackDistance = 0.75f;
+        float attackDistance = 0.75f;
         float speed = 3f;
+
+        bool isDead = enemyUnit.TakeDamage(playerUnit.damage);
 
         Vector3 returnPosition = playerSpritePosition.transform.position;
 
         // Vector3 direction = (enemySpritePosition.transform.position - playerSpritePosition.transform.position).normalized;
-        Vector3 targetPosition = enemySpritePosition.transform.position;
+        Vector3 targetPosition = enemySpritePosition.transform.position * attackDistance;
 
         playerAnimator.SetTrigger("Attack");
 
@@ -122,7 +124,8 @@ public class BattleHandler : MonoBehaviour
             yield return null;
         }
 
-        bool isDead = enemyUnit.TakeDamage(playerUnit.damage);
+        playerAnimator.SetTrigger("Starting");
+
         enemyHUD.SetHealth(enemyUnit.currHealth);
 
         states = (isDead) ? BATTLE_STATES.WON : BATTLE_STATES.ENEMY_TURN;
