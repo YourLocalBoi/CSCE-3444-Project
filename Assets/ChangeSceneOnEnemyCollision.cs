@@ -26,4 +26,4 @@ public class ChangeSceneOnEnemyCollision : MonoBehaviour
     }
     
 }
-}
+
