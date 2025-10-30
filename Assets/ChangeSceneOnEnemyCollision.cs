@@ -7,9 +7,9 @@ public class ChangeSceneOnEnemyCollision : MonoBehaviour
     public string sceneToLoad;
 
     // Using OnTriggerEnter if colliders have IsTrigger enabled
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider2D collision)
     {
-        if (other.CompareTag("Enemy"))
+        if (collision.gameObject.tag == "Player")
         {
             SceneManager.LoadScene(sceneToLoad);
         }
