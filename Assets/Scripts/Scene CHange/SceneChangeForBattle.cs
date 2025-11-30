@@ -3,20 +3,20 @@ using UnityEngine.SceneManagement;
 using UnityEngine;
 using System.Collections;
 
-public class SceneChange : MonoBehaviour
+public class SceneChangeForBattle : MonoBehaviour
 {
     public string sceneToLoad;//scene to load on collision
     public Animator trans;//animator for transition
     public float fadeTime = 1f;//fade time duration
     public bool sceneHasChanged = false;//flag to check if scene has changed
-    private void OnTriggerEnter2D(Collider2D collision)//change scene on collision function
-    {
-        if(collision.gameObject.tag == "Player")
-        {
+    public BattleHandler bH;
+    private void changeScene()//change scene on collision function
+    {   
+        if(bH.changeSceneFlag == true)
             trans.Play("FirstTransition");//play transition animation)
             StartCoroutine(DelayFade());//start delay fade coroutine
             sceneHasChanged = true;
-        }
+        
     }
 
     IEnumerator DelayFade()

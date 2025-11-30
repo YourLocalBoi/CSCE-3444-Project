@@ -38,6 +38,8 @@ public class BattleHandler : MonoBehaviour
     Animator playerAnimator;
     Animator enemyAnimator;
 
+    public bool changeSceneFlag = false;
+
     Vector2 direction;
 
     private void Start()
@@ -196,10 +198,12 @@ public class BattleHandler : MonoBehaviour
     {
         if (states == BATTLE_STATES.WON)
         {
+            changeSceneFlag = true;
             // implement whatever the player will gain; experience, gold, etc.
         }
         else
         {
+            changeSceneFlag = true;
             // implement whatever happens when the player loses; back to last save, restart the fight, choice of these two?
         }
     }

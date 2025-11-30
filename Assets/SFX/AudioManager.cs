@@ -1,5 +1,6 @@
-using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 public class AudioManager : MonoBehaviour 
 {
     public enum SoundType //Enum to define different sound types
@@ -7,8 +8,6 @@ public class AudioManager : MonoBehaviour
         Movement, 
         Attack,
         BattleStart,
-        musicMain,
-        musicBattle 
     }
     [System.Serializable]
     public class Sound
@@ -39,15 +38,6 @@ public class AudioManager : MonoBehaviour
             _soundDictionary[s.type] = s; //Add sound to dictionary
         }
     }
-    public SoundType selectedSound; //Sound type to play on key press for testing
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.W)|| Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D))
-        {
-            Play(selectedSound); //Play sound on key press
-        }
-    }
     public void Play(SoundType type)
     {
         if(!_soundDictionary.TryGetValue(type, out Sound s))
@@ -68,21 +58,5 @@ public class AudioManager : MonoBehaviour
 
     }
 
-    public void ChangeMusic(SoundType type)
-    {
-        if(!_soundDictionary.TryGetValue(type, out Sound track))
-        {
-            Debug.LogWarning($"Music type {type} not found!"); //Warns if sound type is not found
-            return; 
-        }
-        if(_musicSource != null)
-        {
-            var container = new GameObject("SoundTrack");
-            _musicSource = container.AddComponent<AudioSource>();
-            _musicSource.loop = true;
-        }
-        _musicSource.clip = track.clip;
-        _musicSource.Play();
-    }
 
 }
