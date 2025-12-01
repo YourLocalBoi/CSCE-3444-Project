@@ -10,8 +10,14 @@ public class InputManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S))
         {
+            StartCoroutine(WaitInUpdate());
             AudioManager.instance.Play(AudioManager.SoundType.Movement);
         }
         
+    }
+
+    IEnumerator WaitInUpdate()
+    {
+        yield return new WaitForSeconds(2f);
     }
 }
