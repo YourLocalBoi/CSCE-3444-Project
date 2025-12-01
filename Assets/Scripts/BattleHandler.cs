@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using TMPro;
 using System.Collections;
-using UnityEditor.Experimental.GraphView;
+//using UnityEditor.Experimental.GraphView;
 using System.IO;
 using UnityEngine.InputSystem;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -91,7 +91,7 @@ public class BattleHandler : MonoBehaviour
         Debug.Log("Player attack trigger");
 
         float attackDistance = 0.75f;
-        float speed = 3f;
+        float speed = 2.25f;
 
         bool isDead = enemyUnit.TakeDamage(playerUnit.damage);
 
