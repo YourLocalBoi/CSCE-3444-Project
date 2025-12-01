@@ -161,8 +161,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 916906839}
   - {fileID: 974893885}
+  - {fileID: 916906839}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &82044325
@@ -6950,16 +6950,6 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
-  - first: {x: 0, y: 0, z: 0}
-    second:
-      serializedVersion: 2
-      m_TileIndex: 0
-      m_TileSpriteIndex: 0
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 0
-      m_TileObjectToInstantiateIndex: 65535
-      dummyAlignment: 0
-      m_AllTileFlags: 1073741825
   - first: {x: 1, y: 0, z: 0}
     second:
       serializedVersion: 2
@@ -9842,13 +9832,13 @@ Tilemap:
       m_AllTileFlags: 1073741825
   m_AnimatedTiles: {}
   m_TileAssetArray:
-  - m_RefCount: 932
+  - m_RefCount: 931
     m_Data: {fileID: 11400000, guid: b6ad0a0db01f5ce40bb5974c46c72734, type: 2}
   m_TileSpriteArray:
-  - m_RefCount: 932
+  - m_RefCount: 931
     m_Data: {fileID: 1049364087, guid: 2d53e8eb54ca9374d9b263e1939ecdbb, type: 3}
   m_TileMatrixArray:
-  - m_RefCount: 932
+  - m_RefCount: 931
     m_Data:
       e00: 1
       e01: 0
@@ -9867,7 +9857,7 @@ Tilemap:
       e32: 0
       e33: 1
   m_TileColorArray:
-  - m_RefCount: 932
+  - m_RefCount: 931
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
