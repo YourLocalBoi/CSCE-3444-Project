@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Level1.unity
     guid: 02fb61c5376c94b48a9e7b01fe089233
   - enabled: 1
-    path: Assets/Scenes/TestBattleScene.unity
+    path: Assets/Scenes/Tentacle Monster Scene.unity
     guid: 959997c546ac3c94da451dcdbf6800c9
   - enabled: 1
     path: Assets/Scenes/Level2.unity
