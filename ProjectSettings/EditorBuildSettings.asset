@@ -20,6 +20,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Bat Battle.unity
     guid: e6b5a44da9976a043a6ce21f9da6c92f
+  - enabled: 1
+    path: Assets/Scenes/Final Boss.unity
+    guid: f2a1cce27656bf74eaacbc46f944c8ed
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

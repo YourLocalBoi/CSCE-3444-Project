@@ -4974,6 +4974,10 @@ PrefabInstance:
       propertyPath: unitName
       value: Taron
       objectReference: {fileID: 0}
+    - target: {fileID: 6421593273092032396, guid: ddc03b75020022244b7334b1c9213da6, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: d60502fb0ad3fbb44b8b9d6f6846a66a, type: 2}
     - target: {fileID: 8628259503798037242, guid: ddc03b75020022244b7334b1c9213da6, type: 3}
       propertyPath: m_Name
       value: Character
@@ -5036,17 +5040,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6328793609860426569, guid: bea7e36b4ac3f0e4eb74aaf6b8faa6f3, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: acf4a10a2f44cff4cb9a9209d65beb90, type: 2}
     - target: {fileID: 7144493073485369603, guid: bea7e36b4ac3f0e4eb74aaf6b8faa6f3, type: 3}
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 7165667089348652930, guid: bea7e36b4ac3f0e4eb74aaf6b8faa6f3, type: 3}
       propertyPath: damage
-      value: 200
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7165667089348652930, guid: bea7e36b4ac3f0e4eb74aaf6b8faa6f3, type: 3}
       propertyPath: unitName
-      value: Teemo
+      value: Tentacle Monster
       objectReference: {fileID: 0}
     - target: {fileID: 7983663981226244454, guid: bea7e36b4ac3f0e4eb74aaf6b8faa6f3, type: 3}
       propertyPath: m_LocalPosition.x
