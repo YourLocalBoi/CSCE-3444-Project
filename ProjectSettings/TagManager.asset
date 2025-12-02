@@ -41,17 +41,29 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: dark
+    uniqueID: 2706706751
+    locked: 0
   - name: Water
     uniqueID: 3110428121
     locked: 0
   - name: Ground
     uniqueID: 4048566699
     locked: 0
+  - name: ground object
+    uniqueID: 3113269645
+    locked: 0
   - name: Path
     uniqueID: 2459137695
     locked: 0
   - name: Vegitation Under
     uniqueID: 3760759757
+    locked: 0
+  - name: Statue body
+    uniqueID: 3295305305
+    locked: 0
+  - name: Statue head
+    uniqueID: 2786368433
     locked: 0
   - name: Player
     uniqueID: 2409882691
