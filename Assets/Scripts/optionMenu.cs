@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
+using UnityEngine.Audio;
 
 public class optionMenu : MonoBehaviour
 {
@@ -12,6 +13,13 @@ public class optionMenu : MonoBehaviour
     private int selectedRes;
 
     public TMP_Text resolutionLabel;
+
+    public AudioMixer theMixer;
+
+    public TMP_Text mastLabel, musicLabel, sfxLabel;
+
+    public Slider mastSlider, musicSlider, SFXSlider;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -94,6 +102,27 @@ public class optionMenu : MonoBehaviour
         }
         Screen.SetResolution(resolutions[selectedRes].horizontal, resolutions[selectedRes].vertical, fullscreenTog.isOn);
     }
+
+    public void SetMasterVolume()
+    {
+        mastLabel.text = Mathf.RoundToInt(mastSlider.value + 80).ToString();
+
+        theMixer.SetFloat("Master Volume", mastSlider.value);
+    }
+
+     public void SetMuicVolume()
+    {
+        musicLabel.text = Mathf.RoundToInt(musicSlider.value + 80).ToString();
+
+        theMixer.SetFloat("Music Volume", musicSlider.value);
+    }
+ public void SetSFXVolume()
+    {
+        sfxLabel.text = Mathf.RoundToInt(SFXSlider.value + 80).ToString();
+
+        theMixer.SetFloat("SFX Volume", SFXSlider.value);
+    }
+
 }
 
 [System.Serializable]

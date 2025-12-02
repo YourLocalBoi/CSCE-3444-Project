@@ -35,6 +35,10 @@ public class BattleHandler : MonoBehaviour
     public BattleHUD playerHUD;
     public BattleHUD enemyHUD;
 
+    public GameObject victoryUI;
+    public GameObject defeatUI;
+    public GameObject battleInfo;
+
     Animator playerAnimator;
     Animator enemyAnimator;
 
@@ -93,7 +97,7 @@ public class BattleHandler : MonoBehaviour
         Debug.Log("Player attack trigger");
 
         float attackDistance = 0.75f;
-        float speed = 2.25f;
+        float speed = 2.75f;
 
         bool isDead = enemyUnit.TakeDamage(playerUnit.damage);
 
@@ -113,6 +117,8 @@ public class BattleHandler : MonoBehaviour
             );
             yield return null;
         }
+
+        yield return new WaitForSeconds(0.4f);
 
         playerAnimator.SetTrigger("AttackDone");
 
@@ -179,6 +185,13 @@ public class BattleHandler : MonoBehaviour
     IEnumerator EnemyTurn()
     {
         bool playerDead = playerUnit.TakeDamage(enemyUnit.damage);
+        
+        enemyAnimator.SetTrigger("EnemyAttack");
+
+        yield return new WaitForSeconds(1.5f);
+
+        enemyAnimator.SetTrigger("EnemyDone");
+
         playerHUD.SetHealth(playerUnit.currHealth);
 
         yield return new WaitForSeconds(2f);
@@ -201,10 +214,16 @@ public class BattleHandler : MonoBehaviour
         {
             
             // implement whatever the player will gain; experience, gold, etc.
+            battleInfo.SetActive(false);
+
+            victoryUI.SetActive(true);
         }
         else
         {
             // implement whatever happens when the player loses; back to last save, restart the fight, choice of these two?
+            battleInfo.SetActive(false);
+
+            defeatUI.SetActive(true);
         }
     }
 }
