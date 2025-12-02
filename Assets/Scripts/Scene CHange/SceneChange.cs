@@ -1,29 +1,31 @@
-using Unity.Cinemachine;
-using UnityEngine.SceneManagement;
-using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SceneChange : MonoBehaviour
 {
-    public string sceneToLoad;//scene to load on collision
-    public Animator trans;//animator for transition
-    public float fadeTime = 1f;//fade time duration
-    public bool sceneHasChanged = false;//flag to check if scene has changed
-    private void OnTriggerEnter2D(Collider2D collision)//change scene on collision function
+    public string sceneToLoad;
+    public Animator trans;
+    public float fadeTime = 1f;
+    public string enemyID = "";
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.tag == "Player")
+        if (collision.CompareTag("Player"))
         {
-            trans.Play("FirstTransition");//play transition animation)
-            StartCoroutine(DelayFade());//start delay fade coroutine
-            sceneHasChanged = true;
+            PlayerPrefs.SetInt(enemyID, 1);   // MARK ENEMY AS DEAD
+            PlayerPrefs.Save();
+
+            trans.Play("FirstTransition");
+            StartCoroutine(DelayFade());
         }
     }
 
     IEnumerator DelayFade()
     {
-        yield return new WaitForSeconds(fadeTime);//wait for 1 second
+        yield return new WaitForSeconds(fadeTime);
+
         SceneManager.LoadScene(sceneToLoad);
-
     }
-
 }
