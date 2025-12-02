@@ -11,7 +11,7 @@ public class SceneChange : MonoBehaviour
     public bool sceneHasChanged = false;//flag to check if scene has changed
     private void OnTriggerEnter2D(Collider2D collision)//change scene on collision function
     {
-        if(collision.gameObject.tag == "Player")
+        if(collision.gameObject.CompareTag("Player"))
         {
             trans.Play("FirstTransition");//play transition animation)
             StartCoroutine(DelayFade());//start delay fade coroutine
