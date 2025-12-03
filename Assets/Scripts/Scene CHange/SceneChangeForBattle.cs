@@ -10,7 +10,7 @@ public class SceneChangeForBattle : MonoBehaviour
     public float fadeTime = 1f;//fade time duration
     public bool sceneHasChanged = false;//flag to check if scene has changed
     public BattleHandler bH;
-    private void changeScene()//change scene on collision function
+    private void ChangeScene()//change scene on collision function
     {   
         if(bH.changeSceneFlag == true)
             trans.Play("FirstTransition");//play transition animation)
