@@ -15,6 +15,7 @@ public class AudioManager : MonoBehaviour
         MainMusic,
         BattleMusic
     }
+    bool isMusic = false;
 
     [System.Serializable]
     public class Sound
@@ -25,6 +26,7 @@ public class AudioManager : MonoBehaviour
         public float volume = 1f;
         [HideInInspector]
         public AudioSource source; // Persistent AudioSource for looping
+        public bool isMusic = false;
     }
 
     public static AudioManager instance;
@@ -78,8 +80,7 @@ public class AudioManager : MonoBehaviour
     {
         if (_soundDictionary.TryGetValue(type, out Sound s))
         {
-            s.source.loop = false;
-            s.source.Play();
+            s.source.PlayOneShot(s.clip, s.volume);
         }
     }
 
@@ -122,10 +123,13 @@ public class AudioManager : MonoBehaviour
     {
         foreach (var s in allSounds)
         {
-            if (s.source.loop)
+            if (s.isMusic)
             {
-                s.source.Stop();
-                s.source.loop = false;
+                if (s.source.loop)
+                {
+                    s.source.Stop();
+                    s.source.loop = false;
+                }
             }
         }
     }

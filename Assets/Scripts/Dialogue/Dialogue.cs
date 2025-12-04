@@ -13,6 +13,7 @@ public class CollisionDialogue : MonoBehaviour
 
     private void Awake()
     {
+        hasTriggered = false;
         gameObject.SetActive(false); // start hidden
     }
     public void TriggerDialogue()
@@ -20,13 +21,11 @@ public class CollisionDialogue : MonoBehaviour
         index = 0;
         dialogueText.text = "";
         gameObject.SetActive(true);
-        hasTriggered = false;
         StartDialogue();
     }
    
     private void Update()
     {
-        hasTriggered =true;
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (dialogueText.text == lines[index]) // If the current line is fully displayed
@@ -45,6 +44,7 @@ public class CollisionDialogue : MonoBehaviour
     void StartDialogue()
     {
         index = 0;
+        hasTriggered = true;
         StartCoroutine(TypeLine()); // Start typing the first line
     }
     IEnumerator TypeLine()
@@ -54,14 +54,17 @@ public class CollisionDialogue : MonoBehaviour
             dialogueText.text += c;
             yield return new WaitForSeconds(textSpeed);
         }
+
     }
     void NextLine()
     {
+        hasTriggered = false;
         if (index < lines.Length - 1)
         {
             index++; // Move to the next line
             dialogueText.text = ""; // Clear the text
             StartCoroutine(TypeLine()); // Start typing the next line
+            hasTriggered = true;
         }
         else
         {

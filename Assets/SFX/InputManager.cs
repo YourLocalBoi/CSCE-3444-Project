@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class InputManager : MonoBehaviour 
+public class InputManager : MonoBehaviour
 {
-    public CollisionDialogue dialogueT;
-    private bool dialogueSoundPlayed = false;
+    public CollisionDialogue[] dialogueT;
+
     void Update()
     {
         bool isMoving = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) ||
@@ -30,11 +30,18 @@ public class InputManager : MonoBehaviour
             AudioManager.instance.Play(AudioManager.SoundType.SkipDialogue);
             
         }
-        if (dialogueT.hasTriggered && !dialogueSoundPlayed)
+        if(Input.GetKeyDown(KeyCode.KeypadEnter))
         {
-            AudioManager.instance.Play(AudioManager.SoundType.Dialogue);
-            dialogueSoundPlayed = true;
-            
+            AudioManager.instance.Play(AudioManager.SoundType.Attack);
+
+        }
+        foreach (CollisionDialogue dail in dialogueT)
+        {
+            if ( dail != null && dail.hasTriggered)
+            {
+                AudioManager.instance.Play(AudioManager.SoundType.Dialogue);
+                break;
+            }
         }
     }
 
