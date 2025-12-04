@@ -7,7 +7,7 @@ public class topPlayerMovement : MonoBehaviour
     public Rigidbody2D rb;
     public Animator animator;
     Vector2 movement;
-
+    public bool canMove = true;
 
     void Awake()
     {
@@ -20,8 +20,8 @@ public class topPlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // stop all actions when paused
-        if (Time.timeScale == 0f)
+        // stop all actions when paused or movement is disabled
+        if ((Time.timeScale == 0f) || (!canMove))
             return;
 
         movement.x = Input.GetAxisRaw("Horizontal");
@@ -48,7 +48,7 @@ public class topPlayerMovement : MonoBehaviour
     {
 
         // stop movement when paused
-        if (Time.timeScale == 0f)
+        if ((Time.timeScale == 0f) || (!canMove))
             return;
         //movements happens here
 

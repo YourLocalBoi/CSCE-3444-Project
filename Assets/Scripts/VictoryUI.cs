@@ -5,7 +5,6 @@ public class VictoryUI : MonoBehaviour
 {
     public float delayBeforeAdvance = 3f;   // seconds before moving on
     public string nextSceneName = "MainMenu";
-
     void Start()
     {
         // Show the victory UI immediately on enable

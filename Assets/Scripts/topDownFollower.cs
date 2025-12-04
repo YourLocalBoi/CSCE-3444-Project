@@ -11,11 +11,11 @@ public class TopDownCameraFollow : MonoBehaviour
     [Header("Offset from the player")]
     public Vector3 offset = new Vector3(0, 0, -10);
 
+    public bool canFollow = true; // Cutscene will toggle this
     void LateUpdate()
     {
-        if (target == null)
+        if (!canFollow || target == null)
             return;
-
         // Desired camera position
         Vector3 desiredPosition = target.position + offset;
 

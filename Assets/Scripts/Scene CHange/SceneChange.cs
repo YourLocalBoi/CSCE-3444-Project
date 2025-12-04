@@ -9,6 +9,7 @@ public class SceneChange : MonoBehaviour
     public Animator trans;
     public float fadeTime = 1f;
     public string enemyID = "";
+    public CameraCutscene postBattleCutscene;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -16,11 +17,16 @@ public class SceneChange : MonoBehaviour
         {
             PlayerPrefs.SetInt(enemyID, 1);   // MARK ENEMY AS DEAD
             PlayerPrefs.Save();
+         
 
             trans.Play("FirstTransition");
             StartCoroutine(DelayFade());
+            if (enemyID == "69")               
+                postBattleCutscene.BeginCutscene();
+            
         }
     }
+    
 
     IEnumerator DelayFade()
     {
