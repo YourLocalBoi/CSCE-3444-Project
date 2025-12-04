@@ -6,6 +6,8 @@ using UnityEngine;
 public class InputManager : MonoBehaviour
 {
     public CollisionDialogue[] dialogueT;
+    private bool HasPlayed = false;
+    
 
     void Update()
     {
@@ -20,30 +22,38 @@ public class InputManager : MonoBehaviour
         {
             AudioManager.instance.Stop(AudioManager.SoundType.Movement);
         }
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             AudioManager.instance.Play(AudioManager.SoundType.Menu);
-            
+
         }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            AudioManager.instance.Play(AudioManager.SoundType.SkipDialogue);
-            
-        }
-        if(Input.GetKeyDown(KeyCode.KeypadEnter))
+        
+        if(Input.GetKeyDown(KeyCode.Return))
         {
             AudioManager.instance.Play(AudioManager.SoundType.Attack);
 
         }
         foreach (CollisionDialogue dail in dialogueT)
         {
-            if ( dail != null && dail.hasTriggered)
+            if ( (dail != null && dail.hasTriggered) && !HasPlayed)
             {
                 AudioManager.instance.Play(AudioManager.SoundType.Dialogue);
+                HasPlayed = true;
                 break;
             }
+            StartCoroutine(Wait(5f));
         }
     }
+    IEnumerator Wait(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        HasPlayed = false;
+
+        // Code to run after waiting
+        Debug.Log("Done waiting!");
+    }
+    
 
 
 }

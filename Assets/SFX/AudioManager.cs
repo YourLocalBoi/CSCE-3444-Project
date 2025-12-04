@@ -9,7 +9,6 @@ public class AudioManager : MonoBehaviour
     {
         Movement,
         Attack,
-        SkipDialogue,
         Menu,
         Dialogue,
         MainMusic,
