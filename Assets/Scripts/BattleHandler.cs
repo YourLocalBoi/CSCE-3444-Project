@@ -68,6 +68,8 @@ public class BattleHandler : MonoBehaviour
         playerAnimator = playerGO.GetComponentInChildren<Animator>();
         playerSpritePosition = playerGO.GetComponentInChildren<SpriteRenderer>();
 
+        playerUnit.currHealth = PlayerPrefs.GetInt("PlayerHealth", playerUnit.maxHealth);
+
         playerHUD.SetHUD(playerUnit);
 
         GameObject enemyGO = Instantiate(enemyPrefab, new Vector2(enemyPosX, enemyPosY), Quaternion.identity);
@@ -212,7 +214,9 @@ public class BattleHandler : MonoBehaviour
     {
         if (states == BATTLE_STATES.WON)
         {
-            
+            PlayerPrefs.SetInt("PlayerHealth", playerUnit.currHealth);
+            PlayerPrefs.Save();
+
             // implement whatever the player will gain; experience, gold, etc.
             battleInfo.SetActive(false);
 

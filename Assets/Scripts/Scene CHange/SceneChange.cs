@@ -9,12 +9,17 @@ public class SceneChange : MonoBehaviour
     public Animator trans;
     public float fadeTime = 1f;
     public string enemyID = "";
+    public Transform exitLocation;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
             PlayerPrefs.SetInt(enemyID, 1);   // MARK ENEMY AS DEAD
+            
+            PlayerPrefs.SetFloat("ReturnX", exitLocation.position.x);
+            PlayerPrefs.SetFloat("ReturnY", exitLocation.position.y);
+
             PlayerPrefs.Save();
 
             trans.Play("FirstTransition");
