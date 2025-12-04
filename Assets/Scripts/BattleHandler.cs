@@ -15,6 +15,7 @@ public enum BATTLE_STATES
     LOST
 }
 
+
 public class BattleHandler : MonoBehaviour
 {
 
@@ -43,6 +44,7 @@ public class BattleHandler : MonoBehaviour
     Animator enemyAnimator;
 
     public bool changeSceneFlag = false;
+    
 
     Vector2 direction;
 
@@ -91,9 +93,10 @@ public class BattleHandler : MonoBehaviour
 
         Debug.Log("Player Turn");
     }
-
+   
     IEnumerator PlayerAttack()
     {
+
         Debug.Log("Player attack trigger");
 
         float attackDistance = 0.75f;
@@ -131,12 +134,14 @@ public class BattleHandler : MonoBehaviour
             );
             yield return null;
         }
+        
 
         playerAnimator.SetTrigger("Starting");
 
         enemyHUD.SetHealth(enemyUnit.currHealth);
 
         states = (isDead) ? BATTLE_STATES.WON : BATTLE_STATES.ENEMY_TURN;
+        
 
         yield return new WaitForSeconds(2f);
 
@@ -168,7 +173,7 @@ public class BattleHandler : MonoBehaviour
         {
             return;
         }
-
+       
         StartCoroutine(PlayerAttack());
     }
 
@@ -184,6 +189,7 @@ public class BattleHandler : MonoBehaviour
 
     IEnumerator EnemyTurn()
     {
+        
         bool playerDead = playerUnit.TakeDamage(enemyUnit.damage);
         
         enemyAnimator.SetTrigger("EnemyAttack");
